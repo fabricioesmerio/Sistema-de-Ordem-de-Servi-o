@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="ui-g">
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+            <h:form id="formulario">
+                <p:growl id="mensagem" autoUpdate="true" />
+                <p:fieldset id="field" legend="Edição de Ordem de Serviço">
+                    <p:commandButton id="btnAlterar" disabled="#{ordemServicoBean.btnAtualizarOS}" value="Salvar OS" action="#{ordemServicoBean.atualizarOS}"/>
+                    
+                    <p:panelGrid columns="4" styleClass="ui-noborder" id="grid" >
+                        <p:outputLabel value="OS:"/>
+                        <p:outputLabel value="#{ordemServicoBean.os.id}" style="color: #999;"/>
+                        <p:outputLabel value="Cliente: " style="font-weight: 700;"/>
+                        <p:outputLabel value="#{ordemServicoBean.os.clientes.nome}" style="color: #999;" />
+                        <p:outputLabel value="Data Abertura:" style="font-weight: 700;"/>
+                        <p:outputLabel value="#{ordemServicoBean.os.dtEntrada}" style="color: #999;">
+                            <f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                        <p:outputLabel value="Defeito Reclamado:" style="font-weight: 700;"/>
+                        <p:outputLabel value="#{ordemServicoBean.os.defeito}" style="color: #999;"/>
+                        <h:panelGroup>
+                            <p:outputLabel value="Informe o Responsável pela OS" for="funcionario" style="font-weight: 700;"/>
+                            <p:selectOneMenu id="funcionario" value="#{ordemServicoBean.os.funcionario}" converter="funcionarioConverter" filter="true">
+                                <f:selectItem itemLabel="Selecione o Funcionário" />
+                                <f:selectItems value="#{ordemServicoBean.listagFuncionario}" var="funcio" itemLabel="#{funcio.nome} - #{funcio.cargoFunc.cargo}" itemValue="#{funcio}" />
+                                <p:ajax listener="#{ordemServicoBean.alteraBtnAlterar}" update=":formulario:btnAlterar"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        <p:outputLabel value="Observações" for="obs" style="font-weight: 700;"/>
+                        <p:inputTextarea id="obs" rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} caracteres restantes." autoResize="false" value="#{ordemServicoBean.os.obs}"/>
+                        <h:outputText id="display" style="color: #999; font-size: 10px; display: block;"/>
+                       
+                            <p:outputLabel value="Status" for="status" style="font-weight: 700;"/>
+                            <p:selectOneMenu id="status" value="#{ordemServicoBean.os.statusOs}" converter="statusOSConverter" filter="true" required="true" requiredMessage="Selecione o Funcionário antes de Salvar">
+                                <f:selectItem itemLabel="-----   Selecione   ------" />
+                                <f:selectItems value="#{ordemServicoBean.listStatus}" var="status" itemLabel="#{status.status}" itemValue="#{status}" />
+                            </p:selectOneMenu>
+                            <h:outputText id="msg" style="color: #999; font-size: 10px; display: block;" value="Ao Fechar ou Cancelar uma ordem não poderá mais ser Editada!"/>
+                            <h:panelGroup>
+                                
+                            </h:panelGroup>
+                        
+                            <p:commandButton value="Serviços" icon="ui-icon-plus" onclick="PF('dlg1').show();" process="@this"/>
+
+                            <p:commandButton value="Produtos" icon="ui-icon-plus" onclick="PF('prod').show();" process="@this" />
+                        
+
+                    </p:panelGrid>
+                </p:fieldset>
+                <p:separator />
+                <p:fieldset legend="Serviços">
+                    <p:dataTable var="svOS" id="dtServ" value="#{servOSBean.listarServicosOS(ordemServicoBean.os.id)}"
+                                 reflow="true" rows="5" paginator="true" paginatorPosition="bottom"
+                                 emptyMessage="Não foram adicionados serviços nesta Ordem de Serviço.">
+                        <p:column headerText="Serviço" >
+                            <h:outputText value="#{svOS.servico.servico}" />
+                        </p:column>
+                        <p:column headerText="Valor" >
+                            <h:outputText value="#{svOS.valor}" >
+                                <f:convertNumber type="currency" currencySymbol="R$ " />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Opções" >
+                            <p:commandButton icon="ui-icon-minus" action="#{servOSBean.removeSvOS(svOS)}" process="@this" update=":formulario:dtServ :formulario:total"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+                <p:separator />
+                <p:fieldset legend="Produtos">
+                    <p:dataTable var="produto" id="dtProd" value="#{produtoOsBean.listarProdutosOS(ordemServicoBean.os.id)}"
+                                 reflow="true" rows="5" paginator="true" paginatorPosition="bottom"
+                                 emptyMessage="Não foram adicionados produtos nesta Ordem de Serviço.">
+                        <p:column headerText="Descrição">
+                            <h:outputText value="#{produto.produto.descricao}" />
+                        </p:column>
+                        <p:column headerText="Marca">
+                            <h:outputText value="#{produto.produto.marca}" />
+                        </p:column>
+                        <p:column headerText="Modelo">
+                            <h:outputText value="#{produto.produto.modelo}" />
+                        </p:column>
+                        <p:column headerText="Valor">
+                            <h:outputText value="#{produto.valor}" >
+                                <f:convertNumber type="currency" currencySymbol="R$ " />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Ação">
+                            <p:commandButton icon="ui-icon-minus" action="#{produtoOsBean.removeProdOS(produto)}" process="@this" update=":formulario:dtProd :formulario:total"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+                <p:fieldset legend="Total">
+                    <h:outputText value="#{produtoOsBean.subTotal + servOSBean.subTotal}" id="total">
+                        <f:convertNumber type="currency" currencySymbol="R$ " />
+                    </h:outputText>
+                </p:fieldset>
+            </h:form>
+
+            <h:form id="modal">
+                <p:dialog header="Serviços" widgetVar="dlg1" minHeight="40" width="800">
+                    <p:dataTable var="servico" value="#{ordemServicoBean.geraDataTableServico()}" 
+                                 reflow="true" rows="5" paginator="true" paginatorPosition="bottom"
+                                 emptyMessage="Sem dados para mostrar.">
+
+                        <p:column headerText="Código">
+                            <h:outputText value="#{servico.id}" />
+                        </p:column>
+
+                        <p:column headerText="Serviço">
+                            <h:outputText value="#{servico.servico}" />
+                        </p:column>
+
+                        <p:column headerText="Valor">
+                            <h:outputText value="#{servico.valor}" >
+                                <f:convertNumber locale="pt_BR" minFractionDigits="2" currencySymbol="R$" type="currency"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Opções">
+                            <p:commandButton  icon="ui-icon-check" action="#{ordemServicoBean.addServicoOS(servico)}" update=":formulario:dtServ :formulario:total"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:dialog>
+
+                <p:dialog header="Serviços" widgetVar="prod" minHeight="40" width="800">
+                    <p:dataTable var="prod" value="#{ordemServicoBean.geraDataTableProduto()}" 
+                                 reflow="true" rows="5" paginator="true" paginatorPosition="bottom"
+                                 emptyMessage="Sem dados para mostrar.">
+
+                        <p:column headerText="Descriçao">
+                            <h:outputText value="#{prod.descricao}" />
+                        </p:column>
+
+                        <p:column headerText="Marca">
+                            <h:outputText value="#{prod.marca}" />
+                        </p:column>
+
+                        <p:column headerText="Valor">
+                            <h:outputText value="#{prod.precoVenda}" >
+                                <f:convertNumber locale="pt_BR" minFractionDigits="2" currencySymbol="R$" type="currency"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Opções">
+                            <p:commandButton  icon="ui-icon-check" action="#{ordemServicoBean.addProdutoOS(prod)}" update=":formulario:dtProd :formulario:total"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:dialog>
+            </h:form>
+        </div>
+    </div>
+</ui:decorate>
+

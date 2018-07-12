@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="formCad">
+                       
+        <p:growl id="mensagem" autoUpdate="true" />
+                <p:panelGrid columns="6" styleClass="ui-noborder" id="grid" >
+                    <p:outputLabel value="Nome:" /> <p:inputText id="nomeTxt" value="#{funcionarioBean.funcionario.nome}" />
+                    <p:outputLabel value="CPF:" /><p:inputMask mask="999.999.999-99" id="cpfTxt" value="#{funcionarioBean.funcionario.cpf}"/>
+                    <p:outputLabel value="RG:" /> <p:inputText id="rgTxt" value="#{funcionarioBean.funcionario.rg}"/>
+                    <p:outputLabel value="CTPS:" /> <p:inputText id="ctpsTxt" value="#{funcionarioBean.funcionario.ctps}"/>
+                    <p:outputLabel value="Celular:" /> <p:inputMask mask="(99) 99999-9999" id="celularTxt" value="#{funcionarioBean.funcionario.celular}"/>
+                    <p:outputLabel value="Endereço:" /> <p:inputText id="logradouroTxt" value="#{funcionarioBean.funcionario.logradouro}"/>
+                    <p:outputLabel value="Bairro:" /> <p:inputText id="bairroTxt" value="#{funcionarioBean.funcionario.bairro}"/>
+                    <p:outputLabel value="Cidade:" /> <p:inputText id="cidadeTxt" value="#{funcionarioBean.funcionario.cidade}"/>
+                    <p:outputLabel value="Estado:" /> <p:inputText id="estadoTxt" value="#{funcionarioBean.funcionario.estado}"/>
+                    <p:outputLabel value="Cargo" />
+                    <p:selectOneMenu id="cargo" value="#{funcionarioBean.funcionario.cargoFunc}" converter="cargoConverter" >
+                        <f:selectItem itemLabel="Selecione um Cargo" />
+                        <f:selectItems value="#{funcionarioBean.listagCargos}" var="cargo" itemLabel="#{cargo.cargo}" itemValue="#{cargo}"/>
+                        <p:ajax listener="#{funcionarioBean.setaCargo}" update=":formCad:status"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Status" />
+                    <p:selectOneMenu disabled="#{!funcionarioBean.varCargo}" id="status" value="#{funcionarioBean.funcionario.status}" converter="statusFuncionarioConverter">
+                        <f:selectItem itemLabel="Selecione um Status" />
+                        <f:selectItems value="#{funcionarioBean.listagStatus}" var="status" itemLabel="#{status.status}" itemValue="#{status}"/>
+                        <p:ajax listener="#{funcionarioBean.alteraBtn}" update=":formCad:btn"/>
+                    </p:selectOneMenu>
+                    <p:commandButton id="btn" disabled="#{funcionarioBean.disabled}" value="Salvar" action="#{funcionarioBean.addFuncionario()}" update="@form" />
+                </p:panelGrid>
+    </h:form>
+</html>
+

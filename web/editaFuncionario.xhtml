@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="ui-g">
+        <div class="ui-g-12 ui-md-6 ui-lg-3"><p:commandButton value="Voltar" onclick="history.back()"/></div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <h:form>
+                <p:growl id="mensagem" autoUpdate="true"/>
+                <h1>Tela de Edição de Funcionários</h1>
+                <p:panelGrid columns="2" styleClass="ui-noborder" id="grid">
+                    <h:outputLabel value="Nome Funcionário:" />
+                    <p:inputText id="nomeTxt" value ="#{funcionarioBean.funcionario.nome}"/>
+                    <h:outputLabel value="CPF:" />
+                    <p:inputMask mask="999.999.999-99" id="cpfTxt" value ="#{funcionarioBean.funcionario.cpf}"/>
+                    <h:outputLabel value="RG:" />
+                    <p:inputText id="rgTxt" value ="#{funcionarioBean.funcionario.rg}"/>
+                    <h:outputLabel value="Celular:" />
+                    <p:inputMask mask="(99) 99999-9999" id="celularTxt" value ="#{funcionarioBean.funcionario.celular}"/>
+                    <h:outputLabel value="Endereço:" />
+                    <p:inputText id="logradouroTxt" value ="#{funcionarioBean.funcionario.logradouro}"/>
+                    <h:outputLabel value="Bairro:" />
+                    <p:inputText id="bairroTxt" value ="#{funcionarioBean.funcionario.bairro}"/>
+                    <h:outputLabel value="Cidader:" />
+                    <p:inputText id="cidadeTxt" value ="#{funcionarioBean.funcionario.cidade}"/>
+                    <h:outputLabel value="Estado" />
+                    <p:inputText id="estadoTxt" value ="#{funcionarioBean.funcionario.estado}"/>
+                    <p:outputLabel value="Cargo" />
+                    <p:selectOneMenu id="cargo" value="#{funcionarioBean.funcionario.cargoFunc}" converter="cargoConverter">
+                        <f:selectItem itemValue="#{funcionarioBean.funcionario.cargoFunc}"/>
+                        <f:selectItems value="#{funcionarioBean.listagCargos}" var="cargo" itemLabel="#{cargo.cargo}" itemValue="#{cargo}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Status" />
+                    <p:selectOneMenu id="status" value="#{funcionarioBean.funcionario.status}" converter="statusFuncionarioConverter">
+                        <f:selectItem itemValue="#{funcionarioBean.funcionario.status}"/>
+                        <f:selectItems value="#{funcionarioBean.listagStatus}" var="status" itemLabel="#{status.status}" itemValue="#{status}"/>
+                    </p:selectOneMenu>
+
+
+                    <p:commandButton value="Atualizar" action="#{funcionarioBean.atualizaFuncionario()}"  update="@form" />
+                </p:panelGrid>
+            </h:form>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3"></div>
+    </div>
+
+</ui:decorate>
+

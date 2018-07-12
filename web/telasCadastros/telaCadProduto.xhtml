@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="form">
+
+        <p:growl id="mensagem" autoUpdate="true" showDetail="true"/>
+        <p:panelGrid columns="6" styleClass="ui-noborder" id="grid" >
+            <p:outputLabel value="Marca:" /> <p:inputText id="marcaTxt" value="#{produtoBean.produto.marca}" />
+            <p:outputLabel value="Modelo:" /><p:inputText id="modeloTxt" value="#{produtoBean.produto.modelo}"/>
+            <p:outputLabel value="Número de Série:" /> <p:inputText id="numSerieTxt" value="#{produtoBean.produto.numSerie}"/>
+            <p:outputLabel value="Preço de Custo" /> <p:inputNumber id="precoCustoTxt" value="#{produtoBean.produto.precoCusto}" symbol="R$ " />
+            <p:outputLabel value="Preço de Venda:" /> <p:inputNumber id="precoVendaTxt" value="#{produtoBean.produto.precoVenda}" symbol="R$ "/>
+            <p:outputLabel value="Categoria" />
+            <p:selectOneMenu id="categoria" value="#{produtoBean.produto.categoria}" converter="categoriaConverter" required="true" requiredMessage="O campo Categoria é obrigatório!">
+                <f:selectItem itemLabel="Selecione uma Categoria" />
+                <f:selectItems value="#{produtoBean.listagCategoria}" var="cat" itemLabel="#{cat.descricao}" itemValue="#{cat}"/>
+                <p:ajax listener="#{produtoBean.setaCat}" update=":form:fornecedor"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="Fornecedor" />
+            <p:selectOneMenu id="fornecedor" disabled="#{!produtoBean.varCat}" value="#{produtoBean.produto.fornecedor}" converter="fornecedorConverter">
+                <f:selectItem itemLabel="Selecione o Fornecedor" />
+                <f:selectItems value="#{produtoBean.listagFornecedor}" var="forn" itemLabel="#{forn.nomeFantasia}" itemValue="#{forn}" />
+                <p:ajax listener="#{produtoBean.alteraBtn}" update=":form:btn"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="Descrição:" /> <p:inputTextarea id="descrTxt" value="#{produtoBean.produto.descricao}"/>
+            <p:commandButton id="btn" disabled="#{produtoBean.disabled}" value="Salvar" action="#{produtoBean.salvar()}" update="@form" />
+        </p:panelGrid>
+    </h:form>
+</html>
+

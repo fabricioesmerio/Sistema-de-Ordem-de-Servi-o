@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form>
+
+        <p:dataTable var="funcio" value="#{funcionarioBean.listarFuncionario()}" reflow="true" 
+                     rows="5" paginator="true" emptyMessage="Nenhum dado para mostrar." 
+                     rowsPerPageTemplate="5,10,15">
+            <f:facet name="header">
+                Lista dos Funcionários Cadastrados no Sistema.
+            </f:facet>
+            <p:column filterBy="#{funcio.id}" headerText="Código">
+                <h:outputText value="#{funcio.id}" />
+            </p:column>
+
+            <p:column filterBy="#{funcio.nome}" headerText="Nome Completo">
+                <h:outputText value="#{funcio.nome}" />
+            </p:column>
+
+            <p:column filterBy="#{funcio.cpf}" headerText="CPF">
+                <h:outputText value="#{funcio.cpf}" />
+            </p:column>
+            <p:column headerText="RG">
+                <h:outputText value="#{funcio.rg}" />
+            </p:column>
+            <p:column filterBy="#{funcio.ctps}" headerText="CTPS">
+                <h:outputText value="#{funcio.ctps}" />
+            </p:column>
+            <p:column headerText="Celular">
+                <h:outputText value="#{funcio.celular}" />
+            </p:column>
+            <p:column headerText="Cargo">
+                <h:outputText value="#{funcio.cargoFunc.cargo}" />
+            </p:column>
+            <p:column headerText="Status">
+                <h:outputText value="#{funcio.status.status}" />
+            </p:column>
+            <p:column headerText="Opções">
+                <p:commandButton icon="ui-icon-pencil" alt="Editar" title="Editar" action="#{funcionarioBean.carregaFuncionario(funcio.id)}"/>
+            </p:column>
+        </p:dataTable>
+
+    </h:form>
+</html>
+

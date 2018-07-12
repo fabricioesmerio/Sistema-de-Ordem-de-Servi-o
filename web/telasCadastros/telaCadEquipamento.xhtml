@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:form id="formCadEqp">
+        <p:growl id="mensagem" autoUpdate="true"/>
+        <h1 style="text-align: center;">Cadastro de Equipamento</h1>
+        <p:panelGrid columns="2" styleClass="ui-noborder" id="grid" >
+            <p:outputLabel value="Cadastrar Equipamento para o cliente:" />
+            <p:outputLabel value="#{clienteBean.cliente.nome}" />
+            <p:outputLabel value="Marca:" />
+            <p:inputText id="marcaTxt" value="#{equipamentoBean.equip.marca}" />
+            <p:outputLabel value="Modelo:" />
+            <p:inputText id="modeloTxt" value="#{equipamentoBean.equip.modelo}"/>
+            <p:outputLabel value="Número de Série:" />
+            <p:inputText id="numSerieTxt" value="#{equipamentoBean.equip.numSerie}"/>
+            <p:outputLabel value="Tipo de Equipamento:" />
+            <h:panelGroup>
+                <p:selectOneMenu id="tipoEquipamento" value="#{equipamentoBean.equip.tipoEquipamento}" converter="tipoEquipamentoConverter" autoWidth="false" >
+                    <f:selectItem itemLabel=" --- Selecione ---" id="select" />
+                    <f:selectItems value="#{equipamentoBean.listTipo}" var="tipo" itemLabel="#{tipo.tipo}" itemValue="#{tipo}" id="items"/>
+                    <p:ajax listener="#{equipamentoBean.mostraBtn}" update=":formCadEqp:btn"/>
+                </p:selectOneMenu>
+                <p:commandButton value="add" type="button" onclick="PF('cadTipo').show();" style="float: right;" process="@this" update=":formCadEqp:tipoEquipamento"/>
+            </h:panelGroup>
+            <p:commandButton id="btn" value="Cadastrar" disabled="#{equipamentoBean.disabled}" action="#{equipamentoBean.addEquipamento(clienteBean.cliente)}" update="@form :formListagem" />                      
+
+        </p:panelGrid>
+    </h:form>
+    <h:form>
+        <p:dialog header="Cadastro" widgetVar="cadTipo" modal="true"  >
+            <p:panelGrid columns="2" styleClass="ui-noborder" id="grid" >
+                Tipo de Equipamento: <p:inputText id="tipoTxt" value ="#{tipoEquipamentoBean.tipoEqp.tipo}"/>
+
+                <p:commandButton value="Cadastrar" action="#{tipoEquipamentoBean.addTipo}" update="@form" />
+
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+</html>
+

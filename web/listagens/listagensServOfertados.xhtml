@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="formDataTable">
+
+        <h:panelGrid>
+            <p:dataTable id="table" var="serv" value="#{servOfertadoBean.listagemServOfertado()}" reflow="true" rows="5" paginator="true" widgetVar="servTable" emptyMessage="Sem dados para mostrar.">
+
+                <p:column headerText="Código" width="50" >
+                    <h:outputText value="#{serv.id}" />
+                </p:column>
+
+                <p:column filterBy="#{serv.servico}" headerText="Serviço" width="250">
+                    <h:outputText value="#{serv.servico}" />
+                </p:column>
+
+                <p:column headerText="Valor">
+                    <h:outputText value="#{serv.valor}" >
+                        <f:convertNumber type="currency" currencySymbol="R$ " />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:panelGrid>
+    </h:form>
+</html>
+

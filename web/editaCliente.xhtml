@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:p="http://primefaces.org/ui">
+    <div class="ui-g">
+        <div class="ui-g-12 ui-md-6 ui-lg-3"></div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <h:form>
+                <p:growl id="mensagem" autoUpdate="true"/>
+                <h1>Tela de Edição de Clientes</h1>
+                <p:panelGrid columns="2" styleClass="ui-noborder" id="grid">
+                    <h:outputLabel value="Nome Cliente:" />
+                    <p:inputText id="nomeTxt" value ="#{clienteBean.cliente.nome}"/>
+                    <h:outputLabel value="CPF:" />
+                    <p:inputMask mask="999.999.999-99" id="cpfTxt" value ="#{clienteBean.cliente.cpf}"/>
+                    <h:outputLabel value="RG:" />
+                    <p:inputText id="rgTxt" value ="#{clienteBean.cliente.rg}"/>
+                    <h:outputLabel value="Telefone:" />
+                    <p:inputMask mask="(99) 9999-9999" id="telefoneTxt" value ="#{clienteBean.cliente.telefone}"/>
+                    <h:outputLabel value="Celular:" />
+                    <p:inputMask mask="(99) 99999-9999" id="celularTxt" value ="#{clienteBean.cliente.celular}"/>
+                    <h:outputLabel value="Endereço:" />
+                    <p:inputText id="logradouroTxt" value ="#{clienteBean.cliente.logradouro}"/>
+                    <h:outputLabel value="Bairro:" />
+                    <p:inputText id="bairroTxt" value ="#{clienteBean.cliente.bairro}"/>
+                    <h:outputLabel value="Cidader:" />
+                    <p:inputText id="cidadeTxt" value ="#{clienteBean.cliente.cidade}"/>
+                    <h:outputLabel value="Estado" />
+                    <p:inputText id="estadoTxt" value ="#{clienteBean.cliente.estado}"/>
+                    <p:commandButton value="Atualizar" action="#{clienteBean.atualizaCliente()}"  update="@form" />
+                </p:panelGrid>
+            </h:form>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3"></div>
+    </div>
+</ui:decorate>
+

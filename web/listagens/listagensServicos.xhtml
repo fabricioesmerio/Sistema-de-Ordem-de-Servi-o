@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        
+    </h:head>
+    <h:body>
+        <h:form id="lista">
+            <p:growl id="growl" autoUpdate="true" />
+            <p:dataTable var="servico" value="#{ordemServicoBean.geraDataTableServico()}" 
+                         reflow="true" rows="5" paginator="true" paginatorPosition="bottom"
+                         emptyMessage="Sem dados para mostrar.">
+
+                <p:column headerText="Código">
+                    <h:outputText value="#{servico.id}" />
+                </p:column>
+
+                <p:column headerText="Serviço">
+                    <h:outputText value="#{servico.servico}" />
+                </p:column>
+
+                <p:column headerText="Valor">
+                    <h:outputText value="#{servico.valor}" />
+                </p:column>
+
+                <p:column headerText="Opções">
+                    <p:commandButton  icon="ui-icon-check" action="#{ordemServicoBean.salvaServicoOS(servico)}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+        <p:growl id="mensagem" autoUpdate="true"/>
+        <p:panelGrid columns="6" styleClass="ui-noborder" id="grid" >
+            <p:outputLabel value="Nome Fantasia:" /> <p:inputText id="nomeTxt" value="#{fornecedorBean.fornecedor.nomeFantasia}" />
+            <p:outputLabel value="Razão Social:" /> <p:inputText id="razaoTxt" value="#{fornecedorBean.fornecedor.razaoSocial}"/>
+            <p:outputLabel value="CNPJ:" /> <p:inputMask mask="99.999.999/9999-99" id="cnpjTxt" value="#{fornecedorBean.fornecedor.cnpj}"/>
+            <p:outputLabel value="Inscrição Estadual:" /> <p:inputText id="ieTxt" value="#{fornecedorBean.fornecedor.ie}"/>
+            <p:outputLabel value="Telefone:" /> <p:inputMask mask="(99) 9999-9999" id="telefoneTxt" value="#{fornecedorBean.fornecedor.telefone}"/>
+            <p:outputLabel value="Endereço:" /> <p:inputText id="logradouroTxt" value="#{fornecedorBean.fornecedor.logradouro}"/>
+            <p:outputLabel value="Cep:" /> <p:inputMask mask="99.999-999" id="cepTxt" value="#{fornecedorBean.fornecedor.cep}"/>
+            <p:outputLabel value="Bairro:" /> <p:inputText id="bairroTxt" value="#{fornecedorBean.fornecedor.bairro}"/>
+            <p:outputLabel value="Cidade:" /> <p:inputText id="cidadeTxt" value="#{fornecedorBean.fornecedor.cidade}"/>
+            <p:outputLabel value="Estado:" /> <p:inputText id="estadoTxt" value="#{fornecedorBean.fornecedor.estado}"/>
+            <p:commandButton value="Salvar" action="#{fornecedorBean.addFornecedor}" update="@form" />
+        </p:panelGrid>
+    </h:form>
+
+</html>
+
